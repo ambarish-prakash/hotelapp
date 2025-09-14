@@ -8,7 +8,7 @@ class HotelSerializerTest < ActiveSupport::TestCase
   end
 
   test "serializes id, destination_id, name, description, and booking_conditions" do
-    assert_equal @hotel.id, @serialization[:id]
+    assert_equal @hotel.hotel_code, @serialization[:id]
     assert_equal @hotel.destination_id, @serialization[:destination_id]
     assert_equal @hotel.name, @serialization[:name]
     assert_equal @hotel.description, @serialization[:description]
