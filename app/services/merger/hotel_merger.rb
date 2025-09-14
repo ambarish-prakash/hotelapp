@@ -13,6 +13,17 @@ module Merger
         raw_hotels = RawHotel.where(hotel_code: hotel_code)
         Rails.logger.info("[Merger::HotelMerger] Found #{raw_hotels.count} raw hotels for hotel code: #{hotel_code}")
 
+        if raw_hotels.empty?
+          hotel = Hotel.find_by(hotel_code: hotel_code) # Find the hotel if it exists
+          if hotel.present?
+            Rails.logger.info("[Merger::HotelMerger] No raw hotels found for hotel code: #{hotel_code}. Deleting existing hotel.")
+            hotel.destroy!
+          else
+            Rails.logger.info("[Merger::HotelMerger] No raw hotels found for hotel code: #{hotel_code} and no existing hotel to delete. Returning.")
+          end
+          return
+        end
+
         hotel = Hotel.find_or_initialize_by(hotel_code: hotel_code)
         Rails.logger.info("[Merger::HotelMerger] #{hotel.new_record? ? 'Building new' : 'Found existing'} hotel for hotel code: #{hotel_code}")
 

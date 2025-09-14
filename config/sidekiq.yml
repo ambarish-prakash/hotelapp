@@ -3,3 +3,19 @@
   - procurement
   - merge
 
+:cron:
+  hotel_procurement_acme:
+    cron: "0 2 * * *"   # every day at 2:00 AM
+    class: "HotelProcurementJob"
+    args:
+      - "acme"
+  hotel_procurement_patagonia:
+    cron: "30 2 * * *"  # every day at 2:30 AM
+    class: "HotelProcurementJob"
+    args:
+      - "patagonia"
+  hotel_procurement_patagonia:
+    cron: "0 3 * * *"  # every day at 3:00 AM
+    class: "HotelProcurementJob"
+    args:
+      - "paperflies"

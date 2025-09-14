@@ -12,6 +12,7 @@ module Merger
       # Find deduped images from raw hotels and set them
       # Using max from category and description to get non empty strings
       deduped_images = Image.where(owner: raw_hotels)
+                            .where.not(url: nil)
                             .group(:url)
                             .select(
                               :url,

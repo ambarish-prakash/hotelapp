@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'countries'
+
 module Acme
   class HotelImporter < BaseImporter
     def self.import(hotel_json)
