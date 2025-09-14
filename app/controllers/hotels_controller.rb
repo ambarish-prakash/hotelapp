@@ -1,6 +1,5 @@
 class HotelsController < ApplicationController
   def index
-    @destinations = Destination.all
     @hotels = Hotel.all.includes(:location)
 
     if params[:destination_name].present? && params[:destination_name] != "All Destinations"

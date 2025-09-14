@@ -1,30 +1,44 @@
 <% provide(:title, 'Hotels') %>
 
-<h1>Hotels</h1>
+<div class="container">
+  <h1>Hotels</h1>
 
-<div class="hotel-filter">
-  <%= form_with url: hotels_path, method: :get, data: { turbo_frame: "hotels_list" } do |form|
-    %>
-    <%= form.label :destination_name, "Filter by Destination:" %>
-    <%= form.select :destination_name, options_for_select(@destinations.pluck(:name), params[:destination_name]), { include_blank: 'All Destinations' }, onchange: 'this.form.requestSubmit()' %>
-  <% end %>
-</div>
-
-<%= turbo_frame_tag "hotels_list" do %>
-  <div class="hotel-list">
-    <% if @hotels.any? %>
-      <ul>
-        <% @hotels.each do |hotel| %>
-          <li>
-            <%= link_to hotel.name, hotel_path(hotel) %>
-            <% if hotel.location.present? %>
-              (<%= hotel.location.city %>, <%= hotel.location.country %>)
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p>No hotels found.</p>
+  <div class="hotel-filter" data-controller="destination-filter">
+    <%= form_with url: hotels_path, method: :get, data: { turbo_frame: "hotels_list" }, class: "filter-form" do |form| %>
+      <%= form.label :destination_name, "Filter by Destination:", class: "filter-label" %>
+      <%= form.select :destination_name, [], {}, data: { destination_filter_target: "select" }, onchange: 'this.form.requestSubmit()', class: "filter-select" %>
     <% end %>
   </div>
-<% end %>
+
+  <%= turbo_frame_tag "hotels_list" do %>
+    <div class="hotel-list">
+      <% if @hotels.any? %>
+        <table class="hotels-table">
+          <thead>
+            <tr>
+              <th>Hotel Name</th>
+              <th>City</th>
+              <th>Country</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @hotels.each do |hotel| %>
+              <tr>
+                <td><%= link_to hotel.name, hotel_path(hotel), data: { turbo_frame: "_top" } %></td>
+                <% if hotel.location.present? %>
+                  <td><%= hotel.location.city %></td>
+                  <td><%= hotel.location.country %></td>
+                <% else %>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p class="no-hotels-message">No hotels found.</p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

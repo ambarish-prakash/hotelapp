@@ -1,56 +1,98 @@
 <% provide(:title, @hotel.name) %>
 
-<h1><%= @hotel.name %></h1>
+<div class="container hotel-show-container">
+  <div class="hotel-header">
+    <h1><%= @hotel.name %></h1>
+    <% if @hotel.location.present? && @hotel.location.latitude.present? && @hotel.location.longitude.present? %>
+      <div id="map" style="height: 400px; width: 100%;"
+           data-controller="leaflet-map"
+           data-leaflet-map-latitude-value="<%= @hotel.location.latitude %>"
+           data-leaflet-map-longitude-value="<%= @hotel.location.longitude %>">
+      </div>
+    <% end %>
+    
 
-<% if @hotel.location.present? %>
-  <p><strong>Address:</strong> <%= @hotel.location.address %>, <%= @hotel.location.city %>, <%= @hotel.location.country %></p>
-<% end %>
+    <% if @hotel.location.present? %>
+      <p class="hotel-address">
+        <%= @hotel.location.address %>, <%= @hotel.location.city %>, <%= @hotel.location.country %>
+      </p>
+    <% end %>
+  </div>
 
-<% if @hotel.description.present? %>
-  <h2>Description</h2>
-  <p><%= @hotel.description %></p>
-<% end %>
-
-<h2>Pictures</h2>
-<% if @hotel.images.any? %>
-  <% @hotel.images.group_by(&:category).each do |category, images| %>
-    <h3><%= category.humanize %></h3>
-    <div class="image-gallery">
-      <% images.each do |image| %>
-        <figure>
-          <img src="<%= image.url %>" alt="<%= image.description %>" width="200">
-          <figcaption><%= image.description %></figcaption>
-        </figure>
-      <% end %>
+  <% if @hotel.description.present? %>
+    <div class="hotel-section hotel-description">
+      <h2>Description</h2>
+      <p><%= @hotel.description %></p>
     </div>
   <% end %>
-<% else %>
-  <p>No pictures available.</p>
-<% end %>
 
-<h2>Amenities</h2>
-<% if @hotel.amenities.any? %>
-  <% @hotel.amenities.group_by(&:category).each do |category, amenities| %>
-    <h3><%= category.humanize %></h3>
-    <ul>
-      <% amenities.each do |amenity| %>
-        <li><%= amenity.name %></li>
+  <div class="hotel-section hotel-images">
+    <h2>Pictures</h2>
+    <% if @hotel.images.any? %>
+      <% grouped_images = @hotel.images.group_by(&:category) %>
+      <% image_category_order = ['site', 'amenities', 'rooms'] %>
+
+      <% image_category_order.each do |category| %>
+        <% if grouped_images[category].present? %>
+          <h3><%= category.humanize %></h3>
+          <div class="image-gallery">
+            <% grouped_images[category].each do |image| %>
+              <figure class="image-item">
+                <img src="<%= image.url %>" alt="<%= image.description %>">
+                <figcaption><%= image.description %></figcaption>
+              </figure>
+            <% end %>
+          </div>
+          <% grouped_images.delete(category) %> <%# Remove displayed category %>
+        <% end %>
       <% end %>
-    </ul>
-  <% end %>
-<% else %>
-  <p>No amenities listed.</p>
-<% end %>
 
-<h2>Booking Conditions</h2>
-<% if @hotel.booking_conditions.present? %>
-  <ul>
-    <% @hotel.booking_conditions.each do |condition| %>
-      <li><%= condition %></li>
+      <%# Display any remaining categories not in the defined order %>
+      <% grouped_images.each do |category, images| %>
+        <h3><%= category.humanize %></h3>
+        <div class="image-gallery">
+          <% images.each do |image| %>
+            <figure class="image-item">
+              <img src="<%= image.url %>" alt="<%= image.description %>">
+              <figcaption><%= image.description %></figcaption>
+            </figure>
+          <% end %>
+        </div>
+      <% end %>
+
+    <% else %>
+      <p>No pictures available.</p>
     <% end %>
-  </ul>
-<% else %>
-  <p>No booking conditions specified.</p>
-<% end %>
+  </div>
 
-<%= link_to "Back to Hotels", hotels_path %>
+  <div class="hotel-section hotel-amenities">
+    <h2>Amenities</h2>
+    <% if @hotel.amenities.any? %>
+      <% @hotel.amenities.group_by(&:category).each do |category, amenities| %>
+        <h3><%= category.humanize %></h3>
+        <ul class="amenity-list">
+          <% amenities.each do |amenity| %>
+            <li><%= amenity.name.titleize %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% else %>
+      <p>No amenities listed.</p>
+    <% end %>
+  </div>
+
+  <div class="hotel-section hotel-booking-conditions">
+    <h2>Booking Conditions</h2>
+    <% if @hotel.booking_conditions.present? %>
+      <ul class="booking-conditions-list">
+        <% @hotel.booking_conditions.each do |condition| %>
+          <li><%= condition %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No booking conditions specified.</p>
+    <% end %>
+  </div>
+
+  <%= link_to "Back to Hotels", hotels_path, class: "back-button" %>
+</div>

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'net/http' # Add this
+require 'uri'      # Add this
+
 class BaseImporter
   private
 
@@ -44,11 +47,16 @@ class BaseImporter
     new_image_attrs = []
     (images_data || {}).each do |category, images|
       images.each do |image_data|
-        new_image_attrs << {
-          category: category.to_s,
-          url: image_data["url"],
-          description: image_data["description"]
-        }
+        image_url = image_data["url"]
+        if image_url.present? && validate_image_url(image_url) # Add validation here
+          new_image_attrs << {
+            category: category.to_s,
+            url: image_url,
+            description: image_data["description"]
+          }
+        else
+          Rails.logger.warn("[#{self.name}] Skipping invalid or inaccessible image URL for RawHotel ID #{raw_hotel.id}: #{image_url}")
+        end
       end
     end
 
@@ -61,5 +69,24 @@ class BaseImporter
       end
       Image.insert_all(records_to_insert)
     end
+  end
+
+  # New helper method for URL validation
+  def self.validate_image_url(url)
+    uri = URI.parse(url)
+    # Only allow HTTP/HTTPS schemes
+    return false unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+
+    # Set a timeout for the request to prevent hanging
+    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https', read_timeout: 5, open_timeout: 5) do |http|
+      response = http.head(uri.path.empty? ? '/' : uri.path)
+      return response.is_a?(Net::HTTPSuccess) # Check for 2xx response
+    rescue Net::ReadTimeout, Net::OpenTimeout, Errno::ECONNREFUSED, SocketError => e
+      Rails.logger.error("[#{self.name}] Error accessing image URL #{url}: #{e.message}")
+      return false
+    end
+  rescue URI::InvalidURIError => e
+    Rails.logger.error("[#{self.name}] Invalid image URL format: #{url}: #{e.message}")
+    return false
   end
 end
