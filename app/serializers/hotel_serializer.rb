@@ -3,6 +3,10 @@ class HotelSerializer < ActiveModel::Serializer
 
   has_one :location, serializer: LocationSerializer
 
+  def id
+    object.hotel_code
+  end
+
   def amenities
     object.amenities.group_by(&:category).transform_values do |amenities_in_category|
       amenities_in_category.map(&:name)

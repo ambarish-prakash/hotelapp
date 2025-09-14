@@ -25,18 +25,18 @@ class HotelsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "should get index as html filtered by hotel_ids" do
-    get hotels_url, params: { hotel_ids: "#{@hotel.id},#{@hotel_two.id}" }
+  test "should get index as html filtered by hotel_codes" do
+    get hotels_url, params: { hotel_ids: "#{@hotel.hotel_code},#{@hotel_two.hotel_code}" }
     assert_response :success
     assert_select "h1", "Hotels"
   end
 
-  test "should get index as json filtered by hotel_ids" do
-    get hotels_url, params: { hotel_ids: "#{@hotel.id},#{@hotel_two.id}" }, as: :json
+  test "should get index as json filtered by hotel_codes" do
+    get hotels_url, params: { hotel_ids: "#{@hotel.hotel_code},#{@hotel_two.hotel_code}" }, as: :json
     assert_response :success
     parsed_response = JSON.parse(response.body)
     assert_equal 2, parsed_response.count
-    expected_hotels = [@hotel, @hotel_two].sort_by(&:id)
+    expected_hotels = [@hotel, @hotel_two].sort_by(&:hotel_code)
     parsed_response.sort_by! { |h| h["id"] }
     expected_hotels.each_with_index do |hotel, i|
       assert_equal HotelSerializer.new(hotel).as_json.deep_stringify_keys, parsed_response[i]
@@ -53,7 +53,7 @@ class HotelsControllerTest < ActionDispatch::IntegrationTest
     get hotels_url, params: { destination_id: @destination.id }, as: :json
     assert_response :success
     parsed_response = JSON.parse(response.body)
-    expected_hotels = Hotel.where(destination_id: @destination.id).sort_by(&:id)
+    expected_hotels = Hotel.where(destination_id: @destination.id).sort_by(&:hotel_code)
     assert_equal expected_hotels.count, parsed_response.count
     parsed_response.sort_by! { |h| h["id"] }
     expected_hotels.each_with_index do |hotel, i|
@@ -61,16 +61,16 @@ class HotelsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "should get index as json filtered by hotel_ids and destination_id" do
-    get hotels_url, params: { hotel_ids: "#{@hotel.id}", destination_id: @destination.id }, as: :json
+  test "should get index as json filtered by hotel_codes and destination_id" do
+    get hotels_url, params: { hotel_ids: "#{@hotel.hotel_code}", destination_id: @destination.id }, as: :json
     assert_response :success
     parsed_response = JSON.parse(response.body)
     assert_equal 1, parsed_response.count
     assert_equal HotelSerializer.new(@hotel).as_json.deep_stringify_keys, parsed_response.first
   end
 
-  test "should get index as json filtered by hotel_ids and destination_id with no results" do
-    get hotels_url, params: { hotel_ids: "#{@hotel.id}", destination_id: @destination_two.id }, as: :json
+  test "should get index as json filtered by hotel_codes and destination_id with no results" do
+    get hotels_url, params: { hotel_ids: "#{@hotel.hotel_code}", destination_id: @destination_two.id }, as: :json
     assert_response :success
     assert_empty JSON.parse(response.body)
   end

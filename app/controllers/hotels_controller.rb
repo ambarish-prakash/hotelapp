@@ -4,7 +4,7 @@ class HotelsController < ApplicationController
 
     if params[:hotel_ids].present?
       hotel_ids = params[:hotel_ids].split(',').map(&:strip)
-      @hotels = @hotels.where(id: hotel_ids)
+      @hotels = @hotels.where(hotel_code: hotel_ids)
     end
 
     if params[:destination_id].present?
