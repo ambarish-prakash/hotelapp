@@ -1,0 +1,79 @@
+general:
+  outdoor pool:
+    - outdoor pool
+    - swimming pool
+    - pool outside
+    - open-air pool
+    - pool
+  indoor pool:
+    - indoor pool
+    - heated pool
+    - covered pool
+    - spa pool
+  business center:
+    - business center
+    - business centre
+    - conference room
+    - meeting room
+    - workstation
+  childcare:
+    - childcare
+    - babysitting
+    - kids care
+    - children services
+  wifi:
+    - wifi
+    - wi-fi
+    - wireless internet
+    - internet
+    - internet access
+  dry cleaning:
+    - dry cleaning
+    - laundry service
+    - laundry
+    - clothes cleaning
+  breakfast:
+    - breakfast
+    - buffet
+    - continental breakfast
+    - morning meal
+  bar:
+    - bar
+    - alcohol
+    - pub
+
+room:
+  aircon:
+    - aircon
+    - air conditioning
+    - ac
+    - climate control
+  tv:
+    - tv
+    - television
+    - flat screen
+    - cable tv
+    - satellite tv
+  coffee machine:
+    - coffee machine
+    - coffee maker
+    - espresso machine
+    - nespresso
+  kettle:
+    - kettle
+    - electric kettle
+    - tea kettle
+    - hot water maker
+  hair dryer:
+    - hair dryer
+    - blow dryer
+    - hairdryer
+  iron:
+    - iron
+    - ironing
+    - ironing board
+  bathtub:
+    - bathtub
+    - bath tub
+    - bath
+    - soaking tub

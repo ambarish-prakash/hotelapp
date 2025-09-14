@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  destination: one
+  location: one
+  name: MyString
+  description: MyString
+  booking_conditions: MyText
+  source: MyString
+  hotel_id: 1
+  raw_json: 
+
+two:
+  destination: two
+  location: two
+  name: MyString
+  description: MyString
+  booking_conditions: MyText
+  source: MyString
+  hotel_id: 1
+  raw_json: 
