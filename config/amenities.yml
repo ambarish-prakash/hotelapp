@@ -31,7 +31,6 @@ general:
     - dry cleaning
     - laundry service
     - laundry
-    - clothes cleaning
   breakfast:
     - breakfast
     - buffet
@@ -41,13 +40,21 @@ general:
     - bar
     - alcohol
     - pub
+  parking:
+    - parking
+    - parking spaces
+    - valet
+    - car park
+  concierge:
+    - concierge
+    - front desk
+    - concierge service
 
 room:
   aircon:
     - aircon
     - air conditioning
     - ac
-    - climate control
   tv:
     - tv
     - television
@@ -75,5 +82,7 @@ room:
   bathtub:
     - bathtub
     - bath tub
-    - bath
-    - soaking tub
+    - tub
+  minibar:
+    - minibar
+    - cooler

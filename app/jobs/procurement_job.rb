@@ -10,16 +10,18 @@ class ProcurementJob < ApplicationJob
     hotel_data = Procurement::Fetcher.call(endpoint)
     Rails.logger.info("[ProcurementJob] Fetched data for #{hotel_data.length} hotels from #{source}")
   
-    transformer = Procurement::Transformers.for(source)
+    importer = Procurement::Importers.for(source)
     hotel_data.each do |hotel_json|
       begin
-        raw_hotel = transformer.transform(hotel_json)
-        raw_hotel.save!
+        raw_hotel = importer.import(hotel_json)
+        Rails.logger.info("[ProcurementJob] Imported Hotel with Hotel Code #{raw_hotel.hotel_code} from Source #{raw_hotel.source}")
         # trigger a merge job
       rescue => e
+        Rails.logger.warn("[ProcurementJob] Procurement for hotel #{hotel_json} failed")
         Rails.logger.warn("[ProcurementJob] Skipping item due to #{e.class}: #{e.message}")
       end
     end
+    nil
   end
 
   def fetch_endpoint!(source)
