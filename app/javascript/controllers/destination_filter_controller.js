@@ -29,14 +29,14 @@ export default class extends Controller {
 
     destinations.forEach(destination => {
       const option = document.createElement("option")
-      option.value = destination.name
+      option.value = destination.id
       option.textContent = destination.name
       this.selectTarget.appendChild(option)
     })
 
     // Set the selected value if it was present in the URL params
     const urlParams = new URLSearchParams(window.location.search)
-    const selectedDestination = urlParams.get("destination_name")
+    const selectedDestination = urlParams.get("destination_id")
     if (selectedDestination) {
       this.selectTarget.value = selectedDestination
     }

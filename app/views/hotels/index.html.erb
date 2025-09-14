@@ -5,8 +5,8 @@
 
   <div class="hotel-filter" data-controller="destination-filter">
     <%= form_with url: hotels_path, method: :get, data: { turbo_frame: "hotels_list" }, class: "filter-form" do |form| %>
-      <%= form.label :destination_name, "Filter by Destination:", class: "filter-label" %>
-      <%= form.select :destination_name, [], {}, data: { destination_filter_target: "select" }, onchange: 'this.form.requestSubmit()', class: "filter-select" %>
+      <%= form.label :destination_id, "Filter by Destination:", class: "filter-label" %>
+      <%= form.select :destination_id, [], {}, data: { destination_filter_target: "select" }, onchange: 'this.form.requestSubmit()', class: "filter-select" %>
     <% end %>
   </div>
 
