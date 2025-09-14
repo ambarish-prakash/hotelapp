@@ -1,0 +1,56 @@
+<% provide(:title, @hotel.name) %>
+
+<h1><%= @hotel.name %></h1>
+
+<% if @hotel.location.present? %>
+  <p><strong>Address:</strong> <%= @hotel.location.address %>, <%= @hotel.location.city %>, <%= @hotel.location.country %></p>
+<% end %>
+
+<% if @hotel.description.present? %>
+  <h2>Description</h2>
+  <p><%= @hotel.description %></p>
+<% end %>
+
+<h2>Pictures</h2>
+<% if @hotel.images.any? %>
+  <% @hotel.images.group_by(&:category).each do |category, images| %>
+    <h3><%= category.humanize %></h3>
+    <div class="image-gallery">
+      <% images.each do |image| %>
+        <figure>
+          <img src="<%= image.url %>" alt="<%= image.description %>" width="200">
+          <figcaption><%= image.description %></figcaption>
+        </figure>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <p>No pictures available.</p>
+<% end %>
+
+<h2>Amenities</h2>
+<% if @hotel.amenities.any? %>
+  <% @hotel.amenities.group_by(&:category).each do |category, amenities| %>
+    <h3><%= category.humanize %></h3>
+    <ul>
+      <% amenities.each do |amenity| %>
+        <li><%= amenity.name %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% else %>
+  <p>No amenities listed.</p>
+<% end %>
+
+<h2>Booking Conditions</h2>
+<% if @hotel.booking_conditions.present? %>
+  <ul>
+    <% @hotel.booking_conditions.each do |condition| %>
+      <li><%= condition %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No booking conditions specified.</p>
+<% end %>
+
+<%= link_to "Back to Hotels", hotels_path %>
