@@ -2,20 +2,18 @@
 
 one:
   destination: one
-  location: one
   name: MyString
   description: MyString
-  booking_conditions: MyText
-  source: MyString
-  hotel_id: 1
+  booking_conditions: ["Condition 1", "Condition 2"]
+  source: Acme
+  hotel_code: CodeOne
   raw_json: 
 
 two:
   destination: two
-  location: two
   name: MyString
   description: MyString
-  booking_conditions: MyText
-  source: MyString
-  hotel_id: 1
+  booking_conditions: ["Condition 1", "Condition 2"]
+  source: Patagonia
+  hotel_code: CodeTwo
   raw_json: 

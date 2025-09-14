@@ -1,13 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  owner: one
-  owner_type: Owner
-  category: MyString
-  url: MyString
+  owner: one (RawHotel)
+  category: general
+  url: UrlString
 
-two:
-  owner: two
-  owner_type: Owner
-  category: MyString
-  url: MyString

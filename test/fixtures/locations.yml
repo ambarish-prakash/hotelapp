@@ -1,6 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  owner: one (Hotel)
   latitude: 1.5
   longitude: 1.5
   address: MyString
@@ -8,6 +9,15 @@ one:
   country: MyString
 
 two:
+  owner: two (Hotel)
+  latitude: 1.5
+  longitude: 1.5
+  address: MyString
+  city: MyString
+  country: MyString
+
+three:
+  owner: one (RawHotel)
   latitude: 1.5
   longitude: 1.5
   address: MyString

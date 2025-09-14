@@ -4,4 +4,8 @@ class Hotel < ApplicationRecord
 
   has_many :amenities, as: :owner, dependent: :destroy, inverse_of: :owner
   has_many :images,    as: :owner, dependent: :destroy, inverse_of: :owner
+
+  validates :hotel_code, presence: true
+
+  serialize :booking_conditions, coder: JSON
 end

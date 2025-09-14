@@ -11,16 +11,16 @@ module Paperflies
         raw_hotel.raw_json = hotel_json
         raw_hotel.destination = Destination.find(hotel_json['destination_id'])
         raw_hotel.description = hotel_json["details"].to_s.strip
-        raw_hotel.booking_conditions = hotel_json["booking_conditions"]
+        raw_hotel.booking_conditions = (hotel_json["booking_conditions"] || []).map(&:strip)
 
         location_data = hotel_json["location"] || {}
         update_location(
           raw_hotel,
           lat: nil, # Not available
           lng: nil, # Not available
-          address: location_data["address"],
+          address: location_data["address"].to_s.strip,
           city: nil, # Not available
-          country: location_data["country"]
+          country: location_data["country"].to_s.strip
         )
         
         raw_hotel.save!

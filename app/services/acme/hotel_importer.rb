@@ -12,7 +12,7 @@ module Acme
         raw_hotel.destination = Destination.find(hotel_json['DestinationId'])
         raw_hotel.description = hotel_json["Description"].to_s.strip
 
-        country_code = hotel_json["Country"].to_s.strip
+        country_code = hotel_json["Country"].to_s.strip.upcase
         country = ISO3166::Country[country_code]
 
         update_location(

@@ -12,9 +12,9 @@ class BaseImporter
     location = raw_hotel.location || raw_hotel.build_location
     location.latitude  = parse_float(lat)
     location.longitude = parse_float(lng)
-    location.address   = address.to_s.strip.presence
-    location.city      = city.to_s.strip.presence
-    location.country   = country.to_s.strip.presence
+    location.address   = address.to_s.strip
+    location.city      = city.to_s.strip
+    location.country   = country.to_s.strip
   end
 
   def self.sync_amenities(raw_hotel, amenity_keywords)

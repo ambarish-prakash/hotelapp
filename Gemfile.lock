@@ -158,6 +158,8 @@ GEM
     matrix (0.4.3)
     mini_mime (1.1.5)
     minitest (5.25.5)
+    mocha (2.7.1)
+      ruby2_keywords (>= 0.0.5)
     msgpack (1.8.0)
     net-imap (0.5.10)
       date
@@ -288,6 +290,7 @@ GEM
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
+    ruby2_keywords (0.0.5)
     rubyzip (3.1.0)
     securerandom (0.4.1)
     selenium-webdriver (4.35.0)
@@ -389,6 +392,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  mocha (~> 2.0)
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.2, >= 8.0.2.1)

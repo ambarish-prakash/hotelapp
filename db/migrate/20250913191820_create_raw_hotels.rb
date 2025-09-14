@@ -8,7 +8,7 @@ class CreateRawHotels < ActiveRecord::Migration[8.0]
       t.text :booking_conditions
       
       t.string :source
-      t.string :hotel_code
+      t.string :hotel_code, null: false
       t.json :raw_json
 
       t.timestamps
