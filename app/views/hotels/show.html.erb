@@ -2,6 +2,9 @@
 
 <div class="container hotel-show-container">
   <div class="hotel-header">
+    <div class="back-arrow-container">
+      <%= link_to "&larr;".html_safe, hotels_path, class: "back-button-icon" %>
+    </div>
     <h1><%= @hotel.name %></h1>
     <% if @hotel.location.present? && @hotel.location.latitude.present? && @hotel.location.longitude.present? %>
       <div id="map" style="height: 400px; width: 100%;"
@@ -94,5 +97,5 @@
     <% end %>
   </div>
 
-  <%= link_to "Back to Hotels", hotels_path, class: "back-button" %>
+  
 </div>

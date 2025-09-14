@@ -24,6 +24,7 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative; /* Added for positioning context */
 }
 
 h1 {
@@ -316,4 +317,32 @@ a:hover {
 
 .back-button:hover {
   background-color: #5a6268;
+}
+
+/* New styles for back arrow */
+.back-arrow-container {
+  position: absolute; /* Position relative to the nearest positioned ancestor */
+  top: 20px; /* Adjust as needed */
+  left: 20px; /* Adjust as needed */
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.back-button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* Size of the button */
+  height: 40px; /* Size of the button */
+  background-color: #007bff; /* Primary color */
+  color: white;
+  text-decoration: none;
+  border-radius: 50%; /* Make it circular */
+  font-size: 1.5em; /* Size of the arrow */
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.back-button-icon:hover {
+  background-color: #0056b3; /* Darker on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
 }
