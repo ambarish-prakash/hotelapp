@@ -4,12 +4,19 @@ one:
   destination: one
   name: MyString
   description: MyString
-  booking_conditions: ["Condition 1", "Condition 2"]
+  booking_conditions: '["Condition 1", "Condition 2"]'
   hotel_code: CodeOne
 
 two:
   destination: two
   name: MyString
   description: MyString
-  booking_conditions: ["Condition 1", "Condition 2"]
+  booking_conditions: '["Condition 1", "Condition 2"]'
   hotel_code: CodeTwo
+
+three:
+  destination: one
+  name: MyStringThree
+  description: MyStringThree
+  booking_conditions: '["Condition 3", "Condition 4"]'
+  hotel_code: CodeThree

@@ -4,7 +4,7 @@ one:
   destination: one
   name: MyString
   description: MyString
-  booking_conditions: ["Condition 1", "Condition 2"]
+  booking_conditions: '["Condition 1", "Condition 2"]'
   source: Acme
   hotel_code: CodeOne
   raw_json: 
@@ -13,7 +13,7 @@ two:
   destination: two
   name: MyString
   description: MyString
-  booking_conditions: ["Condition 1", "Condition 2"]
+  booking_conditions: '["Condition 1", "Condition 2"]'
   source: Patagonia
   hotel_code: CodeTwo
   raw_json: 
@@ -22,7 +22,7 @@ three:
   destination: one
   name: MyString
   description: MyString
-  booking_conditions: ["Condition 1", "Condition 2"]
+  booking_conditions: '["Condition 1", "Condition 2"]'
   source: Paperflies
   hotel_code: CodeThree
   raw_json:

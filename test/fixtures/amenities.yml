@@ -4,3 +4,18 @@ one:
   owner: one (RawHotel)
   category: general
   name: pool
+
+two:
+  owner: one (Hotel)
+  category: general
+  name: wifi
+
+three:
+  owner: one (Hotel)
+  category: general
+  name: bar
+
+four:
+  owner: one (Hotel)
+  category: room
+  name: aircon

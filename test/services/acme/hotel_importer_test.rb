@@ -3,6 +3,8 @@ require "test_helper"
 class Acme::HotelImporterTest < ActiveSupport::TestCase
   setup do
     @destination = destinations(:one)
+    # Stub the validate_image_url method to prevent actual network requests
+    BaseImporter.stubs(:validate_image_url).returns(true)
   end
 
   test "should import a valid hotel" do

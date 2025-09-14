@@ -2,10 +2,10 @@ class LocationSerializer < ActiveModel::Serializer
   attributes :lat, :lng, :address, :city, :country
 
   def lat
-    object.latitude
+    object.latitude.to_f
   end
 
   def lng
-    object.longitude
+    object.longitude.to_f
   end
 end

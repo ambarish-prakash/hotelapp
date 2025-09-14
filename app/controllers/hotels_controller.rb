@@ -1,30 +1,19 @@
 class HotelsController < ApplicationController
   def index
-    @hotels = Hotel.all.includes(:location)
+    @hotels = Hotel.all.includes(:location, :amenities, :images)
 
-    if params[:destination_name].present? && params[:destination_name] != "All Destinations"
-      destination = Destination.find_by(name: params[:destination_name])
-      if destination
-        @hotels = @hotels.where(destination_id: destination.id)
-      else
-        @hotels = Hotel.none # No hotels if destination not found
-      end
+    if params[:hotel_ids].present?
+      hotel_ids = params[:hotel_ids].split(',').map(&:strip)
+      @hotels = @hotels.where(id: hotel_ids)
+    end
+
+    if params[:destination_id].present?
+      @hotels = @hotels.where(destination_id: params[:destination_id])
     end
 
     respond_to do |format|
-      format.html # Renders app/views/hotels/index.html.erb
-      format.json do
-        render json: @hotels.map { |hotel|
-          {
-            id: hotel.id,
-            name: hotel.name,
-            destination: {
-              id: hotel.destination.id,
-              name: hotel.destination.name
-            }
-          }
-        }
-      end
+      format.html
+      format.json { render json: @hotels, each_serializer: HotelSerializer }
     end
   end
 
@@ -32,7 +21,7 @@ class HotelsController < ApplicationController
     @hotel = Hotel.includes(:location, :amenities, :images).find(params[:id])
 
     respond_to do |format|
-      format.html # Renders app/views/hotels/show.html.erb
+      format.html
       format.json { render json: @hotel, serializer: HotelSerializer }
     end
   end

@@ -3,6 +3,8 @@ require "test_helper"
 class Patagonia::HotelImporterTest < ActiveSupport::TestCase
   setup do
     @destination = destinations(:one)
+    # Stub the validate_image_url method to prevent actual network requests
+    BaseImporter.stubs(:validate_image_url).returns(true)
   end
 
   test "should import a valid hotel" do
@@ -230,5 +232,27 @@ class Patagonia::HotelImporterTest < ActiveSupport::TestCase
     assert_not_nil location
     assert_nil location.latitude
     assert_nil location.longitude
+  end
+
+  test "should handle invalid image urls" do
+    hotel_json = {
+      "id" => "patagonia_hotel_5",
+      "destination" => @destination.id,
+      "name" => "Hotel with invalid image",
+      "images" => {
+        "rooms" => [
+          {"url" => "http://patagonia.com/room1.jpg", "description" => "Room one"}
+        ]
+      }
+    }
+
+    BaseImporter.stubs(:validate_image_url).returns(false)
+
+    Patagonia::HotelImporter.import(hotel_json)
+
+    raw_hotel = RawHotel.find_by(hotel_code: "patagonia_hotel_5", source: "Patagonia")
+    assert_not_nil raw_hotel
+
+    assert_equal 0, raw_hotel.images.count
   end
 end

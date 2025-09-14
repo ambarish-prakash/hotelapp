@@ -4,4 +4,16 @@ one:
   owner: one (RawHotel)
   category: general
   url: UrlString
+  description: Description
 
+two:
+  owner: one (Hotel)
+  category: site
+  url: http://example.com/hotel_site_1.jpg
+  description: Hotel exterior
+
+three:
+  owner: one (Hotel)
+  category: room
+  url: http://example.com/hotel_room_1.jpg
+  description: Deluxe room

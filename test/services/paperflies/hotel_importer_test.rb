@@ -3,6 +3,8 @@ require "test_helper"
 class Paperflies::HotelImporterTest < ActiveSupport::TestCase
   setup do
     @destination = destinations(:one)
+    # Stub the validate_image_url method to prevent actual network requests
+    BaseImporter.stubs(:validate_image_url).returns(true)
   end
 
   test "should import a valid hotel" do
@@ -229,5 +231,27 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
     assert_not_nil location
     assert_nil location.latitude
     assert_nil location.longitude
+  end
+
+  test "should handle invalid image urls" do
+    hotel_json = {
+      "hotel_id" => "paperflies_hotel_5",
+      "destination_id" => @destination.id,
+      "hotel_name" => "Hotel with invalid image",
+      "images" => {
+        "site" => [
+          {"link" => "http://paperflies.com/new_site.jpg", "caption" => "New Site"}
+        ]
+      },
+    }
+
+    BaseImporter.stubs(:validate_image_url).returns(false)
+
+    Paperflies::HotelImporter.import(hotel_json)
+
+    raw_hotel = RawHotel.find_by(hotel_code: "paperflies_hotel_5", source: "Paperflies")
+    assert_not_nil raw_hotel
+
+    assert_equal 0, raw_hotel.images.count
   end
 end
