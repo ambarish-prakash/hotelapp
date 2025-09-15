@@ -3,6 +3,9 @@ class HotelProcurementJob < ApplicationJob
 
   retry_on(StandardError, attempts: 3)
 
+  # Fetches hotel data from a source, imports it, and triggers a merge job.
+  #
+  # @param source [String] The procurement source (e.g., 'acme', 'paperflies').
   def perform(source)
     endpoint = fetch_endpoint!(source)
     Rails.logger.info("[HotelProcurementJob] Starting job source=#{source} endpoint=#{endpoint}")
@@ -26,6 +29,13 @@ class HotelProcurementJob < ApplicationJob
     nil
   end
 
+  private
+
+  # Fetches the endpoint URL for a given source from the configuration.
+  #
+  # @param source [String] The procurement source.
+  # @return [String] The endpoint URL.
+  # @raise [ArgumentError] if the source is unknown.
   def fetch_endpoint!(source)
     cfg = Rails.configuration.x.procurement_sources
     cfg[source.to_sym][:endpoint] || (raise ArgumentError, "Unknown source #{source.inspect}")

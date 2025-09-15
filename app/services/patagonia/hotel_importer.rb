@@ -2,6 +2,10 @@
 
 module Patagonia
   class HotelImporter < BaseImporter
+    # Imports hotel data from the Patagonia source.
+    #
+    # @param hotel_json [Hash] The hotel data from the Patagonia API.
+    # @return [RawHotel] The imported raw hotel record.
     def self.import(hotel_json)
       ActiveRecord::Base.transaction do
         hotel_id = hotel_json["id"]

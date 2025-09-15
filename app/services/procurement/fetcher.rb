@@ -7,6 +7,12 @@ module Procurement
   class Fetcher
     class Error < StandardError; end
 
+    # Fetches and parses JSON from a URL.
+    #
+    # @param url [String] The URL to fetch.
+    # @param headers [Hash] The headers to send with the request.
+    # @return [Object] The parsed JSON response.
+    # @raise [Error] if the request fails or the response is not valid JSON.
     def self.call(url, headers: {})
       uri = URI(url)
       res = Net::HTTP.start(

@@ -3,6 +3,9 @@ class HotelMergeJob < ApplicationJob
 
   retry_on(StandardError, attempts: 3)
 
+  # Merges hotel data from multiple sources for a given hotel code.
+  #
+  # @param hotel_code [String] The hotel code to merge.
   def perform(hotel_code)
     Rails.logger.info("[HotelMergeJob] Starting merge of hotel data for hotel code: #{hotel_code}")
     begin

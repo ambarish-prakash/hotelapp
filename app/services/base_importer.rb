@@ -6,11 +6,21 @@ require "uri"      # Add this
 class BaseImporter
   private
 
+  # Parses a value into a float, returning nil if blank or invalid.
+  # @param val [String, nil] The value to parse.
+  # @return [Float, nil] The parsed float or nil.
   def self.parse_float(val)
     return nil if val.blank?
     Float(val) rescue nil
   end
 
+  # Updates the location for a raw hotel.
+  # @param raw_hotel [RawHotel] The raw hotel to update.
+  # @param lat [String, nil] The latitude.
+  # @param lng [String, nil] The longitude.
+  # @param address [String, nil] The address.
+  # @param city [String, nil] The city.
+  # @param country [String, nil] The country.
   def self.update_location(raw_hotel, lat:, lng:, address:, city:, country:)
     location = raw_hotel.location || raw_hotel.build_location
     location.latitude  = parse_float(lat)
@@ -20,6 +30,10 @@ class BaseImporter
     location.country   = country.to_s.strip
   end
 
+  # Synchronizes amenities for a raw hotel based on a list of keywords.
+  # It deletes all existing amenities and creates new ones.
+  # @param raw_hotel [RawHotel] The raw hotel to update.
+  # @param amenity_keywords [Array<String>] The list of amenity keywords.
   def self.sync_amenities(raw_hotel, amenity_keywords)
     new_amenity_attrs = (amenity_keywords || []).map do |amenity_keyword|
       sanitized_keyword = amenity_keyword.to_s.strip.downcase.delete(" ")
@@ -43,6 +57,10 @@ class BaseImporter
     end
   end
 
+  # Synchronizes images for a raw hotel based on a hash of image data.
+  # It deletes all existing images and creates new ones.
+  # @param raw_hotel [RawHotel] The raw hotel to update.
+  # @param images_data [Hash] The hash of image data, with categories as keys.
   def self.sync_images(raw_hotel, images_data)
     new_image_attrs = []
     (images_data || {}).each do |category, images|
@@ -71,7 +89,9 @@ class BaseImporter
     end
   end
 
-  # New helper method for URL validation
+  # Validates that a URL is a valid and accessible HTTP/HTTPS image URL.
+  # @param url [String] The URL to validate.
+  # @return [Boolean] True if the URL is valid and accessible, false otherwise.
   def self.validate_image_url(url)
     uri = URI.parse(url)
     # Only allow HTTP/HTTPS schemes
