@@ -90,6 +90,11 @@ Disadvantages:
 - nil can help differentiate between empty "" and missing fields (nil)
 - nil is used for latitude and logitude anyways, as using 0.0 for them does not signify invalid / empty attribute.
 
+### Full deletion and reinsertion of images / amenities
+During procurement / merging, the images / amenities are fully deleted and reinserted. Thishelps avoid the extra logic of finding which items (if any) actually changed and help keep a clean slate. If we assume hotels not to be updated frequently then this method is fine. The insertion and deletion are also performed as single DB statements for effeciency.
+
+However if there are constant updates to hotels and these jobs are run frequently, then deleting and resinerting will negatively impact the performance more significantly.
+
 
 # Other Noteable Features
 Here are some additional features added in:
@@ -103,6 +108,7 @@ Here are some additional features added in:
 
 # Future Implmentation
 These are a mix of features to be implemented now / considered for the future:
+- System integration tests, that test the actual running of jobs. Can be setup with redis in git testing pipeline for the sidekiq jobs.
 - Image deduplication using advanced techniques such as embeddings or phashes
 - Deletion currently does not work. If hotels are removed from a source, its RawHotel object in the DB is not removed.
 - If possible check to see if source URLs could be queried with timestamp, to only fetch latest updates
