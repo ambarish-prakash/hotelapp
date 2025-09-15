@@ -95,6 +95,12 @@ During procurement / merging, the images / amenities are fully deleted and reins
 
 However if there are constant updates to hotels and these jobs are run frequently, then deleting and resinerting will negatively impact the performance more significantly.
 
+### Deletion of hotels at source
+Currently I've taken a direct approach to handle deletion of hotels in a source. I keep a track of all processed hotels, and at the end delete any RawHotels from that source that were not reimported. This works fora small set of hotels, however this does not scale well at all. 
+Alternate approaches to deletion:
+- A status field or timestamp field on the RawHotels that could show that they did not get updated. Merge jobs can ignore these objects, and cleanup jobs can remove them.
+- Recommended: If API endpoint allows, only fetch hotels that are updated/deleted since last call and process the deletion at the job level. 
+
 
 # Other Noteable Features
 Here are some additional features added in:
@@ -102,15 +108,17 @@ Here are some additional features added in:
 - Default amenities set up as part of config. Import jobs transform source values into fixed internal values (eg laundry mapped to Dry Cleaning).
 - Image URL validation. Ensure image endpoint can be accessed while sanitization of input.
 - Cron job setup to ensure daily trigger of job fetching.
-- Test pipeline included as part of CI (on Pull Request and Push to Main). Unit tests written for all services, jobs and controller.
+- Unit tests written for all services, jobs and controller. Including a system test to test the entire procurement and merge jobs together.
+- Test pipeline included as part of CI (on Pull Request and Push to Main).
 - UI (I somehow assumed a UI was required to deliver the data, but only when reading it later I realized only the endpoint was enough).
 
 
 # Future Implmentation
 These are a mix of features to be implemented now / considered for the future:
-- System integration tests, that test the actual running of jobs. Can be setup with redis in git testing pipeline for the sidekiq jobs.
+
+- Triggering merge jobs only if the imported hotel changed. Ideally we should only be re-importing hotel data that was updated, but if the source endpoints do not allow us that filtering ability, then we need to do checks before reimporting / merging as the current solution does not scale well.
 - Image deduplication using advanced techniques such as embeddings or phashes
-- Deletion currently does not work. If hotels are removed from a source, its RawHotel object in the DB is not removed.
 - If possible check to see if source URLs could be queried with timestamp, to only fetch latest updates
 - Unmatched Amenities (dont have mapping to our internal set) log a warning. Make alerts based on that to handle new amenity tags
+
 

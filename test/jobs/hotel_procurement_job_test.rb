@@ -56,4 +56,39 @@ class HotelProcurementJobTest < ActiveJob::TestCase
 
     HotelProcurementJob.new.perform(source)
   end
+
+  test "prunes stale RawHotel records for the source" do
+    source = "test_source"
+    destination = destinations(:one)
+
+    # Setup existing raw hotels in the DB
+    existing_hotel = RawHotel.create!(source: source, hotel_code: "existing", destination: destination)
+    stale_hotel    = RawHotel.create!(source: source, hotel_code: "stale", destination: destination)
+
+    # The new data from the source only contains the 'existing' hotel
+    hotel_data = [ { "Id" => "existing" } ]
+    importer   = mock("importer")
+
+    HotelProcurementJob.any_instance.expects(:fetch_endpoint!).with(source).returns("http://fake.endpoint")
+    Procurement::Fetcher.expects(:call).with("http://fake.endpoint").returns(hotel_data)
+    Procurement::Importers.expects(:for).with(source).returns(importer)
+
+    # The importer will be called for the 'existing' hotel, which it returns
+    importer.expects(:import).with({ "Id" => "existing" }).returns(RawHotelStub.new("existing", source))
+
+    # A merge job will be scheduled for the 'existing' hotel
+    HotelMergeJob.expects(:perform_later).with("existing")
+
+    # A merge job should also be scheduled for the pruned hotel
+    HotelMergeJob.expects(:perform_later).with("stale")
+
+    # We expect the 'stale' hotel to be deleted
+    assert_difference("RawHotel.count", -1) do
+      HotelProcurementJob.new.perform(source)
+    end
+
+    # Verify that the stale hotel is gone and the existing one remains
+    assert_nil RawHotel.find_by(id: stale_hotel.id)
+    assert_not_nil RawHotel.find_by(id: existing_hotel.id)
+  end
 end
