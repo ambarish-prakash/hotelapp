@@ -27,7 +27,7 @@ class Merger::ImageMergerTest < ActiveSupport::TestCase
     Image.create!(owner: @raw_hotel_3, url: "url2.jpg", category: "spa", description: "Spa area") # Max category/description should be picked
     Image.create!(owner: @raw_hotel_3, url: "url4.jpg", category: "exterior", description: "Building")
 
-    Merger::ImageMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2, @raw_hotel_3])
+    Merger::ImageMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2, @raw_hotel_3 ])
     @hotel.reload
 
     assert_equal 4, @hotel.images.count
@@ -55,7 +55,7 @@ class Merger::ImageMergerTest < ActiveSupport::TestCase
 
   test "should handle empty image arrays from raw hotels" do
     # Raw hotels have no images
-    Merger::ImageMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2, @raw_hotel_3])
+    Merger::ImageMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2, @raw_hotel_3 ])
     @hotel.reload
 
     assert_empty @hotel.images
@@ -66,7 +66,7 @@ class Merger::ImageMergerTest < ActiveSupport::TestCase
     Image.create!(owner: @raw_hotel_2, url: "url6.jpg", category: "Category 6", description: nil)
     Image.create!(owner: @raw_hotel_3, url: nil, category: "Category 7", description: "Description 7") # Should not be merged
 
-    Merger::ImageMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2, @raw_hotel_3])
+    Merger::ImageMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2, @raw_hotel_3 ])
     @hotel.reload
 
     assert_equal 2, @hotel.images.count
@@ -87,7 +87,7 @@ class Merger::ImageMergerTest < ActiveSupport::TestCase
     Image.create!(owner: @raw_hotel_2, url: "dedup_url.jpg", category: "C", description: "Desc C")
     Image.create!(owner: @raw_hotel_3, url: "dedup_url.jpg", category: "B", description: "Desc B")
 
-    Merger::ImageMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2, @raw_hotel_3])
+    Merger::ImageMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2, @raw_hotel_3 ])
     @hotel.reload
 
     assert_equal 1, @hotel.images.count

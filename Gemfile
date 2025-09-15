@@ -42,7 +42,7 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 gem "sidekiq", "~> 7.3"
-gem 'sidekiq-cron', '~> 1.12'
+gem "sidekiq-cron", "~> 1.12"
 
 gem "countries", "~> 8.0"
 

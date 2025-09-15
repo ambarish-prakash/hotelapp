@@ -8,6 +8,11 @@ Insert ERD later
 
 ## Key Decisions:
 
+### SQL vs NoSQL
+For the main reason of ease of setup and execution I went with a SQLite database. Not only that, relational tables enforce structure, which means the Response Output would be more stable / fixed.
+On the other hand there is an option of a NoSQL DB such as Mongo. Given the nature of the problem, it looks like multiple sources may have different fields (say tomorrow source D comes and also provides proximity to major attractions), NoSQL would be able to handle that with minimal change. It is a tradeoff worth considering based on the problem - are we adding many new sources? can the downstream handle additional fields / want them?
+
+
 ### Hotel and RawHotel Models
 I created a RawHotel model to store the sanitizied and transformed raw inputs from the sources and a Hotel model that could store the merged Hotel object. I kept Location, Amenities and Images separate models, but with polymorphic owners, pointing to either Hotels or RawHotels. The tradeoffs of keeping these two copies can be seen below:
 

@@ -7,7 +7,7 @@ class CreateAmenities < ActiveRecord::Migration[8.0]
 
       t.timestamps
 
-      t.index [:owner_id, :owner_type, :category, :name], unique: true, name: 'index_amenities_on_owner_and_category_and_name'
+      t.index [ :owner_id, :owner_type, :category, :name ], unique: true, name: 'index_amenities_on_owner_and_category_and_name'
     end
   end
 end

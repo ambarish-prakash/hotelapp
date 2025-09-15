@@ -16,13 +16,13 @@ class Patagonia::HotelImporterTest < ActiveSupport::TestCase
       "lat" => 1.23,
       "lng" => 4.56,
       "address" => "123 Patagonia St",
-      "amenities" => ["Aircon", "Tv", "Coffee machine"],
+      "amenities" => [ "Aircon", "Tv", "Coffee machine" ],
       "images" => {
         "rooms" => [
-          {"url" => "http://patagonia.com/room1.jpg", "description" => "Room one"}
+          { "url" => "http://patagonia.com/room1.jpg", "description" => "Room one" }
         ],
         "amenities" => [
-          {"url" => "http://patagonia.com/amenity1.jpg", "description" => "Amenity one"}
+          { "url" => "http://patagonia.com/amenity1.jpg", "description" => "Amenity one" }
         ]
       }
     }
@@ -122,7 +122,7 @@ class Patagonia::HotelImporterTest < ActiveSupport::TestCase
       "id" => "patagonia_hotel_4",
       "destination" => @destination.id,
       "name" => "Hotel with bad amenity",
-      "amenities" => ["Aircon", "NonExistentAmenity", "Tv"]
+      "amenities" => [ "Aircon", "NonExistentAmenity", "Tv" ]
     }
 
     # Capture logger output
@@ -157,10 +157,10 @@ class Patagonia::HotelImporterTest < ActiveSupport::TestCase
       "lat" => 1.0,
       "lng" => 1.0,
       "address" => "Old Address",
-      "amenities" => ["Aircon", "Tv"],
+      "amenities" => [ "Aircon", "Tv" ],
       "images" => {
         "rooms" => [
-          {"url" => "http://patagonia.com/old_room.jpg", "description" => "Old Room"}
+          { "url" => "http://patagonia.com/old_room.jpg", "description" => "Old Room" }
         ]
       }
     }
@@ -176,10 +176,10 @@ class Patagonia::HotelImporterTest < ActiveSupport::TestCase
       "lat" => 2.0,
       "lng" => 2.0,
       "address" => "New Address",
-      "amenities" => ["Coffee machine", "Tv"], # Change amenities
+      "amenities" => [ "Coffee machine", "Tv" ], # Change amenities
       "images" => {
         "amenities" => [
-          {"url" => "http://patagonia.com/new_amenity.jpg", "description" => "New Amenity"}
+          { "url" => "http://patagonia.com/new_amenity.jpg", "description" => "New Amenity" }
         ]
       }
     }
@@ -241,7 +241,7 @@ class Patagonia::HotelImporterTest < ActiveSupport::TestCase
       "name" => "Hotel with invalid image",
       "images" => {
         "rooms" => [
-          {"url" => "http://patagonia.com/room1.jpg", "description" => "Room one"}
+          { "url" => "http://patagonia.com/room1.jpg", "description" => "Room one" }
         ]
       }
     }

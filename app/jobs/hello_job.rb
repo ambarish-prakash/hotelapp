@@ -5,4 +5,3 @@ class HelloJob < ApplicationJob
     Rails.logger.info "Hello, #{name} from ActiveJob+Sidekiq!"
   end
 end
-

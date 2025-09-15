@@ -6,7 +6,7 @@ class CreateRawHotels < ActiveRecord::Migration[8.0]
       t.string :name
       t.string :description
       t.text :booking_conditions
-      
+
       t.string :source
       t.string :hotel_code, null: false
       t.json :raw_json
@@ -14,6 +14,6 @@ class CreateRawHotels < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :raw_hotels, [:hotel_code, :source], unique: true
+    add_index :raw_hotels, [ :hotel_code, :source ], unique: true
   end
 end

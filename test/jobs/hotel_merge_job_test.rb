@@ -15,11 +15,11 @@ class HotelMergeJobTest < ActiveJob::TestCase
     hotel_code = "some_hotel_code"
 
     merger_mock = Minitest::Mock.new
-    merger_mock.expect(:call, nil, [hotel_code])
+    merger_mock.expect(:call, nil, [ hotel_code ])
 
     logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil, [Regexp.new("Starting merge")])
-    logger_mock.expect(:info, nil, [Regexp.new("Completed merge")])
+    logger_mock.expect(:info, nil, [ Regexp.new("Starting merge") ])
+    logger_mock.expect(:info, nil, [ Regexp.new("Completed merge") ])
 
     Merger::HotelMerger.stub :merge, merger_mock do
       Rails.stub :logger, logger_mock do
@@ -35,9 +35,9 @@ class HotelMergeJobTest < ActiveJob::TestCase
     hotel_code = "failing_code"
 
     logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil, [Regexp.new("Starting merge")])
-    logger_mock.expect(:error, nil, [Regexp.new("Failed to merge hotel data for hotel code: #{hotel_code}. Error: boom")])
-    logger_mock.expect(:error, nil, [String]) # backtrace
+    logger_mock.expect(:info, nil, [ Regexp.new("Starting merge") ])
+    logger_mock.expect(:error, nil, [ Regexp.new("Failed to merge hotel data for hotel code: #{hotel_code}. Error: boom") ])
+    logger_mock.expect(:error, nil, [ String ]) # backtrace
 
     Merger::HotelMerger.stub :merge, ->(_code) { raise StandardError, "boom" } do
       Rails.stub :logger, logger_mock do

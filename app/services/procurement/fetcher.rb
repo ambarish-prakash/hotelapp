@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "net/http"
 require "json"
 
@@ -19,7 +20,7 @@ module Procurement
       end
 
       unless res.is_a?(Net::HTTPSuccess)
-        raise Error, "HTTP #{res.code} from #{url}: #{res.body&.slice(0,500)}"
+        raise Error, "HTTP #{res.code} from #{url}: #{res.body&.slice(0, 500)}"
       end
 
       JSON.parse(res.body)
@@ -28,4 +29,3 @@ module Procurement
     end
   end
 end
-

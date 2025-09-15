@@ -5,11 +5,11 @@ module Paperflies
     def self.import(hotel_json)
       ActiveRecord::Base.transaction do
         hotel_id = hotel_json["hotel_id"]
-        raw_hotel = RawHotel.find_or_initialize_by(hotel_code: hotel_id, source: 'Paperflies')
+        raw_hotel = RawHotel.find_or_initialize_by(hotel_code: hotel_id, source: "Paperflies")
 
         raw_hotel.name = hotel_json["hotel_name"].to_s.strip
         raw_hotel.raw_json = hotel_json
-        raw_hotel.destination = Destination.find(hotel_json['destination_id'])
+        raw_hotel.destination = Destination.find(hotel_json["destination_id"])
         raw_hotel.description = hotel_json["details"].to_s.strip
         raw_hotel.booking_conditions = (hotel_json["booking_conditions"] || []).map(&:strip)
 
@@ -22,7 +22,7 @@ module Paperflies
           city: nil, # Not available
           country: location_data["country"].to_s.strip
         )
-        
+
         raw_hotel.save!
 
         amenities = (hotel_json.dig("amenities", "general") || []) + (hotel_json.dig("amenities", "room") || [])

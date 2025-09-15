@@ -10,6 +10,6 @@ class CreateLocations < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :locations, [:owner_type, :owner_id], unique: true
+    add_index :locations, [ :owner_type, :owner_id ], unique: true
   end
 end

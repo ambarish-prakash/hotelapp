@@ -3,7 +3,7 @@ class HotelsController < ApplicationController
     @hotels = Hotel.all.includes(:location, :amenities, :images)
 
     if params[:hotel_ids].present?
-      hotel_ids = params[:hotel_ids].split(',').map(&:strip)
+      hotel_ids = params[:hotel_ids].split(",").map(&:strip)
       @hotels = @hotels.where(hotel_code: hotel_ids)
     end
 

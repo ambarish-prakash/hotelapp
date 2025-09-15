@@ -39,7 +39,7 @@ class LocationTest < ActiveSupport::TestCase
 
   test "should be invalid with a duplicate owner" do
     raw_hotel = raw_hotels(:one) # This hotel already has a location from the fixtures
-    
+
     duplicate_location = Location.new(
       owner: raw_hotel,
       address: "A different address"

@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require 'countries'
+require "countries"
 
 module Acme
   class HotelImporter < BaseImporter
     def self.import(hotel_json)
       ActiveRecord::Base.transaction do
         hotel_id = hotel_json["Id"]
-        raw_hotel = RawHotel.find_or_initialize_by(hotel_code: hotel_id, source: 'Acme')
+        raw_hotel = RawHotel.find_or_initialize_by(hotel_code: hotel_id, source: "Acme")
 
         raw_hotel.name = hotel_json["Name"].to_s.strip
         raw_hotel.raw_json = hotel_json
-        raw_hotel.destination = Destination.find(hotel_json['DestinationId'])
+        raw_hotel.destination = Destination.find(hotel_json["DestinationId"])
         raw_hotel.description = hotel_json["Description"].to_s.strip
 
         country_code = hotel_json["Country"].to_s.strip.upcase
@@ -25,7 +25,7 @@ module Acme
           city: hotel_json["City"],
           country: country ? country.iso_short_name : country_code
         )
-        
+
         raw_hotel.save!
 
         sync_amenities(raw_hotel, hotel_json["Facilities"])

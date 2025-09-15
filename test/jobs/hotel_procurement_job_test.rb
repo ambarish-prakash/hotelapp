@@ -1,17 +1,12 @@
 require "test_helper"
-require "minitest/mock"
-require "ostruct"
-require "sidekiq/testing"
-# test/jobs/hotel_procurement_job_test.rb
-require "test_helper"
-require "mocha/minitest"
 
 RawHotelStub = Struct.new(:hotel_code, :source)
 
+# Using Mocha to mock for this test as default Minitest raised errors when stubbing an ActiveJob
 class HotelProcurementJobTest < ActiveJob::TestCase
   test "calls HotelMergeJob.perform_later for each imported hotel" do
     source      = "test_source"
-    hotel_data  = [{ "Id" => "HC1" }, { "Id" => "HC2" }, { "Id" => "HC3" }]
+    hotel_data  = [ { "Id" => "HC1" }, { "Id" => "HC2" }, { "Id" => "HC3" } ]
     importer    = mock("importer")
 
     # Don't touch Rails.config — stub the endpoint lookup
@@ -39,7 +34,7 @@ class HotelProcurementJobTest < ActiveJob::TestCase
 
   test "logs & skips a failed import but continues with the rest" do
     source     = "test_source"
-    hotel_data = [{ "Id" => "HC1" }, { "Id" => "BAD" }, { "Id" => "HC3" }]
+    hotel_data = [ { "Id" => "HC1" }, { "Id" => "BAD" }, { "Id" => "HC3" } ]
     importer   = mock("importer")
 
     HotelProcurementJob.any_instance.expects(:fetch_endpoint!).with(source).returns("http://fake.endpoint")

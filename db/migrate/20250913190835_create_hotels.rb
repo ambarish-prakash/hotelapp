@@ -10,7 +10,7 @@ class CreateHotels < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :hotels, :hotel_code, unique: true
   end
 end

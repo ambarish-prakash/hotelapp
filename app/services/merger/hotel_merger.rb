@@ -9,7 +9,7 @@ module Merger
     def self.merge(hotel_code)
       ActiveRecord::Base.transaction do
         Rails.logger.info("[Merger::HotelMerger] Starting merge of hotel data for hotel code: #{hotel_code}")
-        
+
         raw_hotels = RawHotel.where(hotel_code: hotel_code)
         Rails.logger.info("[Merger::HotelMerger] Found #{raw_hotels.count} raw hotels for hotel code: #{hotel_code}")
 

@@ -29,7 +29,7 @@ class Merger::AmenitiesMergerTest < ActiveSupport::TestCase
     Amenity.create!(owner: @raw_hotel_3, category: "room", name: "TV")
     Amenity.create!(owner: @raw_hotel_3, category: "general", name: "Outdoor Pool")
 
-    Merger::AmenitiesMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2, @raw_hotel_3])
+    Merger::AmenitiesMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2, @raw_hotel_3 ])
     @hotel.reload
 
     assert_equal 1, @hotel.amenities.count
@@ -46,7 +46,7 @@ class Merger::AmenitiesMergerTest < ActiveSupport::TestCase
     Amenity.create!(owner: @raw_hotel_2, category: "room", name: "TV")
     Amenity.create!(owner: @raw_hotel_3, category: "room", name: "Balcony")
 
-    Merger::AmenitiesMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2, @raw_hotel_3])
+    Merger::AmenitiesMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2, @raw_hotel_3 ])
 
     assert_empty @hotel.amenities
   end
@@ -57,7 +57,7 @@ class Merger::AmenitiesMergerTest < ActiveSupport::TestCase
     Amenity.create!(owner: @raw_hotel_2, category: "room", name: "TV")
     Amenity.create!(owner: @raw_hotel_3, category: "room", name: "Balcony")
 
-    Merger::AmenitiesMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2, @raw_hotel_3])
+    Merger::AmenitiesMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2, @raw_hotel_3 ])
 
     assert_empty @hotel.amenities
   end
@@ -72,10 +72,10 @@ class Merger::AmenitiesMergerTest < ActiveSupport::TestCase
     Amenity.create!(owner: @raw_hotel_3, category: "room", name: "TV")
     Amenity.create!(owner: @raw_hotel_3, category: "property", name: "Parking")
 
-    Merger::AmenitiesMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2, @raw_hotel_3])
+    Merger::AmenitiesMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2, @raw_hotel_3 ])
     @hotel.reload
 
     assert_equal 2, @hotel.amenities.count
-    assert_equal [["property", "Parking"], ["room", "TV"]].sort, @hotel.amenities.pluck(:category, :name).sort
+    assert_equal [ [ "property", "Parking" ], [ "room", "TV" ] ].sort, @hotel.amenities.pluck(:category, :name).sort
   end
 end

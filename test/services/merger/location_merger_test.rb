@@ -20,7 +20,7 @@ class Merger::LocationMergerTest < ActiveSupport::TestCase
     @raw_hotel_1.location.update!(latitude: 10.0, longitude: 20.0)
     @raw_hotel_2.location.update!(latitude: 11.0, longitude: 21.0)
 
-    Merger::LocationMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2])
+    Merger::LocationMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2 ])
 
     assert_equal 11.0, @hotel.location.latitude
     assert_equal 21.0, @hotel.location.longitude
@@ -30,7 +30,7 @@ class Merger::LocationMergerTest < ActiveSupport::TestCase
     @raw_hotel_1.location.update!(address: "Old Address")
     @raw_hotel_2.location.update!(address: "New Address")
 
-    Merger::LocationMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2])
+    Merger::LocationMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2 ])
 
     assert_equal "New Address", @hotel.location.address
   end
@@ -39,7 +39,7 @@ class Merger::LocationMergerTest < ActiveSupport::TestCase
     @raw_hotel_1.location.update!(city: "Old City")
     @raw_hotel_2.location.update!(city: "New City")
 
-    Merger::LocationMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2])
+    Merger::LocationMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2 ])
 
     assert_equal "New City", @hotel.location.city
   end
@@ -48,7 +48,7 @@ class Merger::LocationMergerTest < ActiveSupport::TestCase
     @raw_hotel_1.location.update!(country: "Old Country")
     @raw_hotel_2.location.update!(country: "New Country")
 
-    Merger::LocationMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2])
+    Merger::LocationMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2 ])
 
     assert_equal "New Country", @hotel.location.country
   end
@@ -61,7 +61,7 @@ class Merger::LocationMergerTest < ActiveSupport::TestCase
 
     assert_nil @hotel.location
 
-    Merger::LocationMerger.merge(@hotel, [@raw_hotel_1])
+    Merger::LocationMerger.merge(@hotel, [ @raw_hotel_1 ])
 
     assert_not_nil @hotel.location
     assert_equal 10.0, @hotel.location.latitude
@@ -74,7 +74,7 @@ class Merger::LocationMergerTest < ActiveSupport::TestCase
 
     @raw_hotel_1.location.update!(latitude: 10.0, longitude: 20.0, address: "Updated Address")
 
-    Merger::LocationMerger.merge(@hotel, [@raw_hotel_1])
+    Merger::LocationMerger.merge(@hotel, [ @raw_hotel_1 ])
 
     assert_equal existing_location.id, @hotel.location.id
     assert_equal 10.0, @hotel.location.latitude
@@ -88,7 +88,7 @@ class Merger::LocationMergerTest < ActiveSupport::TestCase
     @raw_hotel_1.location.update!(latitude: nil, longitude: nil, address: nil, city: nil, country: nil)
     @raw_hotel_2.location.update!(latitude: nil, longitude: nil, address: nil, city: nil, country: nil)
 
-    Merger::LocationMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2])
+    Merger::LocationMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2 ])
 
     assert_nil @hotel.location.latitude
     assert_nil @hotel.location.longitude
@@ -101,7 +101,7 @@ class Merger::LocationMergerTest < ActiveSupport::TestCase
     @raw_hotel_1.location.update!(latitude: 10.0, longitude: 20.0, address: "Address 1", city: "City 1", country: "Country 1", updated_at: 2.days.ago)
     @raw_hotel_2.location.update!(latitude: nil, longitude: nil, address: "Address 2", city: "City 2", country: "Country 2", updated_at: 1.day.ago)
 
-    Merger::LocationMerger.merge(@hotel, [@raw_hotel_1, @raw_hotel_2])
+    Merger::LocationMerger.merge(@hotel, [ @raw_hotel_1, @raw_hotel_2 ])
 
     assert_equal 10.0, @hotel.location.latitude
     assert_equal 20.0, @hotel.location.longitude

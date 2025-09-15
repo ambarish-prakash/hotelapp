@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Procurement
   module Importers
     class UnknownImporter < StandardError; end
@@ -6,7 +7,7 @@ module Procurement
     MAP = {
       acme:       "Acme::HotelImporter",
       patagonia:  "Patagonia::HotelImporter",
-      paperflies: "Paperflies::HotelImporter",
+      paperflies: "Paperflies::HotelImporter"
     }.freeze
 
     def self.for(source)

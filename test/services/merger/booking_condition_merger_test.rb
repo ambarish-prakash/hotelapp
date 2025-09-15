@@ -8,12 +8,12 @@ class Merger::BookingConditionMergerTest < ActiveSupport::TestCase
       raw_hotels(:two)
     ]
 
-    raw_hotels[0].booking_conditions = ["condition A", "condition B"]
-    raw_hotels[1].booking_conditions = ["condition C", "condition D"]
+    raw_hotels[0].booking_conditions = [ "condition A", "condition B" ]
+    raw_hotels[1].booking_conditions = [ "condition C", "condition D" ]
 
     Merger::BookingConditionMerger.merge(hotel, raw_hotels)
 
-    expected_conditions = ["condition A", "condition B", "condition C", "condition D"]
+    expected_conditions = [ "condition A", "condition B", "condition C", "condition D" ]
     assert_equal expected_conditions.sort, hotel.booking_conditions.sort
   end
 
@@ -32,11 +32,11 @@ class Merger::BookingConditionMergerTest < ActiveSupport::TestCase
     assert_empty hotel.booking_conditions
 
     # If only one is empty
-    raw_hotels[0].booking_conditions = ["condition A"]
+    raw_hotels[0].booking_conditions = [ "condition A" ]
 
     Merger::BookingConditionMerger.merge(hotel, raw_hotels)
 
-    assert_equal ["condition A"], hotel.booking_conditions
+    assert_equal [ "condition A" ], hotel.booking_conditions
   end
 
   test "should deduplicate booking conditions" do
@@ -46,12 +46,12 @@ class Merger::BookingConditionMergerTest < ActiveSupport::TestCase
       raw_hotels(:two)
     ]
 
-    raw_hotels[0].booking_conditions = ["condition A", "condition B"]
-    raw_hotels[1].booking_conditions = ["condition B", "condition C"]
+    raw_hotels[0].booking_conditions = [ "condition A", "condition B" ]
+    raw_hotels[1].booking_conditions = [ "condition B", "condition C" ]
 
     Merger::BookingConditionMerger.merge(hotel, raw_hotels)
 
-    expected_conditions = ["condition A", "condition B", "condition C"]
+    expected_conditions = [ "condition A", "condition B", "condition C" ]
     assert_equal expected_conditions.sort, hotel.booking_conditions.sort
   end
 end

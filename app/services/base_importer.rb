@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'net/http' # Add this
-require 'uri'      # Add this
+require "net/http" # Add this
+require "uri"      # Add this
 
 class BaseImporter
   private
@@ -33,11 +33,11 @@ class BaseImporter
     end.compact.uniq
 
     raw_hotel.amenities.delete_all
-    
+
     if new_amenity_attrs.any?
       now = Time.current
       records_to_insert = new_amenity_attrs.map do |attrs|
-        attrs.merge(owner_id: raw_hotel.id, owner_type: 'RawHotel', created_at: now, updated_at: now)
+        attrs.merge(owner_id: raw_hotel.id, owner_type: "RawHotel", created_at: now, updated_at: now)
       end
       Amenity.insert_all(records_to_insert)
     end
@@ -65,7 +65,7 @@ class BaseImporter
     if new_image_attrs.any?
       now = Time.current
       records_to_insert = new_image_attrs.map do |attrs|
-        attrs.merge(owner_id: raw_hotel.id, owner_type: 'RawHotel', created_at: now, updated_at: now)
+        attrs.merge(owner_id: raw_hotel.id, owner_type: "RawHotel", created_at: now, updated_at: now)
       end
       Image.insert_all(records_to_insert)
     end
@@ -78,8 +78,8 @@ class BaseImporter
     return false unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
 
     # Set a timeout for the request to prevent hanging
-    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https', read_timeout: 5, open_timeout: 5) do |http|
-      response = http.head(uri.path.empty? ? '/' : uri.path)
+    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https", read_timeout: 5, open_timeout: 5) do |http|
+      response = http.head(uri.path.empty? ? "/" : uri.path)
       return response.is_a?(Net::HTTPSuccess) # Check for 2xx response
     rescue Net::ReadTimeout, Net::OpenTimeout, Errno::ECONNREFUSED, SocketError => e
       Rails.logger.error("[#{self.name}] Error accessing image URL #{url}: #{e.message}")
@@ -87,6 +87,6 @@ class BaseImporter
     end
   rescue URI::InvalidURIError => e
     Rails.logger.error("[#{self.name}] Invalid image URL format: #{url}: #{e.message}")
-    return false
+    false
   end
 end

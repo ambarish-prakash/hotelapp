@@ -18,7 +18,7 @@ class Acme::HotelImporterTest < ActiveSupport::TestCase
       "Address" => "123 Test St",
       "City" => "Test City",
       "Country" => "SG",
-      "Facilities" => ["Pool", "WiFi", "BusinessCenter"]
+      "Facilities" => [ "Pool", "WiFi", "BusinessCenter" ]
     }
 
     assert_difference "RawHotel.count", 1 do
@@ -110,7 +110,7 @@ class Acme::HotelImporterTest < ActiveSupport::TestCase
       "Id" => "test_hotel_4",
       "DestinationId" => @destination.id,
       "Name" => "Hotel with bad amenity",
-      "Facilities" => ["Pool", "NonExistentAmenity", "WiFi"]
+      "Facilities" => [ "Pool", "NonExistentAmenity", "WiFi" ]
     }
 
     # Capture logger output
@@ -147,7 +147,7 @@ class Acme::HotelImporterTest < ActiveSupport::TestCase
       "Address" => "Old Address",
       "City" => "Old City",
       "Country" => "USA",
-      "Facilities" => ["Pool", "WiFi"]
+      "Facilities" => [ "Pool", "WiFi" ]
     }
     Acme::HotelImporter.import(initial_hotel_json)
     raw_hotel = RawHotel.find_by(hotel_code: "test_hotel_update", source: "Acme")
@@ -163,7 +163,7 @@ class Acme::HotelImporterTest < ActiveSupport::TestCase
       "Address" => "New Address",
       "City" => "New City",
       "Country" => "CA", # Change country
-      "Facilities" => ["BusinessCenter", "WiFi"] # Change amenities
+      "Facilities" => [ "BusinessCenter", "WiFi" ] # Change amenities
     }
 
     assert_no_difference "RawHotel.count" do # Should not create new hotel

@@ -12,18 +12,18 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
       "hotel_id" => "paperflies_hotel_1",
       "destination_id" => @destination.id,
       "hotel_name" => "Paperflies Test Hotel Name",
-      "location" => {"address" => "123 Paperflies St", "country" => "Japan"},
+      "location" => { "address" => "123 Paperflies St", "country" => "Japan" },
       "details" => "A very nice paperflies test hotel.",
-      "amenities" => {"general" => ["indoor pool", "business center"], "room" => ["tv"]},
+      "amenities" => { "general" => [ "indoor pool", "business center" ], "room" => [ "tv" ] },
       "images" => {
         "rooms" => [
-          {"link" => "http://paperflies.com/room1.jpg", "caption" => "Room one"}
+          { "link" => "http://paperflies.com/room1.jpg", "caption" => "Room one" }
         ],
         "site" => [
-          {"link" => "http://paperflies.com/site1.jpg", "caption" => "Site one"}
+          { "link" => "http://paperflies.com/site1.jpg", "caption" => "Site one" }
         ]
       },
-      "booking_conditions" => ["Condition 1", "Condition 2"]
+      "booking_conditions" => [ "Condition 1", "Condition 2" ]
     }
 
     assert_difference "RawHotel.count", 1 do
@@ -41,7 +41,7 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
     assert_equal "Paperflies Test Hotel Name", raw_hotel.name
     assert_equal "A very nice paperflies test hotel.", raw_hotel.description
     assert_equal @destination, raw_hotel.destination
-    assert_equal ["Condition 1", "Condition 2"], raw_hotel.booking_conditions
+    assert_equal [ "Condition 1", "Condition 2" ], raw_hotel.booking_conditions
 
     location = raw_hotel.location
     assert_not_nil location
@@ -73,8 +73,8 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
       "destination_id" => @destination.id,
       "hotel_name" => " ", # Empty string
       "details" => nil, # Null
-      "location" => {"address" => " ", "country" => nil}, # Empty/Null
-      "amenities" => {"general" => [], "room" => []},
+      "location" => { "address" => " ", "country" => nil }, # Empty/Null
+      "amenities" => { "general" => [], "room" => [] },
       "images" => {},
       "booking_conditions" => nil
     }
@@ -99,10 +99,10 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
       "destination_id" => @destination.id,
       "hotel_name" => "  PAPERFLIES TEST HOTEL NAME  ",
       "details" => " A VERY NICE PAPERFLIES TEST HOTEL. ",
-      "location" => {"address" => " 123 PAPERFLIES ST ", "country" => " JAPAN "},
-      "amenities" => {"general" => [], "room" => []},
+      "location" => { "address" => " 123 PAPERFLIES ST ", "country" => " JAPAN " },
+      "amenities" => { "general" => [], "room" => [] },
       "images" => {},
-      "booking_conditions" => [" Condition 1 ", " Condition 2 "]
+      "booking_conditions" => [ " Condition 1 ", " Condition 2 " ]
     }
 
     Paperflies::HotelImporter.import(hotel_json)
@@ -111,7 +111,7 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
     assert_not_nil raw_hotel
     assert_equal "PAPERFLIES TEST HOTEL NAME", raw_hotel.name
     assert_equal "A VERY NICE PAPERFLIES TEST HOTEL.", raw_hotel.description
-    assert_equal ["Condition 1", "Condition 2"], raw_hotel.booking_conditions # booking_conditions are now stripped
+    assert_equal [ "Condition 1", "Condition 2" ], raw_hotel.booking_conditions # booking_conditions are now stripped
 
     location = raw_hotel.location
     assert_not_nil location
@@ -124,7 +124,7 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
       "hotel_id" => "paperflies_hotel_4",
       "destination_id" => @destination.id,
       "hotel_name" => "Hotel with bad amenity",
-      "amenities" => {"general" => ["indoor pool", "NonExistentAmenity"], "room" => ["tv"]}
+      "amenities" => { "general" => [ "indoor pool", "NonExistentAmenity" ], "room" => [ "tv" ] }
     }
 
     # Capture logger output
@@ -156,14 +156,14 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
       "destination_id" => @destination.id,
       "hotel_name" => "Old Name",
       "details" => "Old Description",
-      "location" => {"address" => "Old Address", "country" => "USA"},
-      "amenities" => {"general" => ["indoor pool"], "room" => ["tv"]},
+      "location" => { "address" => "Old Address", "country" => "USA" },
+      "amenities" => { "general" => [ "indoor pool" ], "room" => [ "tv" ] },
       "images" => {
         "rooms" => [
-          {"link" => "http://paperflies.com/old_room.jpg", "caption" => "Old Room"}
+          { "link" => "http://paperflies.com/old_room.jpg", "caption" => "Old Room" }
         ]
       },
-      "booking_conditions" => ["Old Condition"]
+      "booking_conditions" => [ "Old Condition" ]
     }
     Paperflies::HotelImporter.import(initial_hotel_json)
     raw_hotel = RawHotel.find_by(hotel_code: "paperflies_hotel_update", source: "Paperflies")
@@ -174,14 +174,14 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
       "destination_id" => @destination.id,
       "hotel_name" => "New Name",
       "details" => "New Description",
-      "location" => {"address" => "New Address", "country" => "CAN"},
-      "amenities" => {"general" => ["business center"], "room" => ["tv"]}, # Change amenities
+      "location" => { "address" => "New Address", "country" => "CAN" },
+      "amenities" => { "general" => [ "business center" ], "room" => [ "tv" ] }, # Change amenities
       "images" => {
         "site" => [
-          {"link" => "http://paperflies.com/new_site.jpg", "caption" => "New Site"}
+          { "link" => "http://paperflies.com/new_site.jpg", "caption" => "New Site" }
         ]
       },
-      "booking_conditions" => ["New Condition"]
+      "booking_conditions" => [ "New Condition" ]
     }
 
     assert_no_difference "RawHotel.count" do # Should not create new hotel
@@ -193,7 +193,7 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
     raw_hotel.reload # Reload to get updated attributes
     assert_equal "New Name", raw_hotel.name
     assert_equal "New Description", raw_hotel.description
-    assert_equal ["New Condition"], raw_hotel.booking_conditions
+    assert_equal [ "New Condition" ], raw_hotel.booking_conditions
 
     location = raw_hotel.location
     assert_equal "New Address", location.address
@@ -216,8 +216,8 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
       "hotel_id" => "paperflies_hotel_5",
       "destination_id" => @destination.id,
       "hotel_name" => "Hotel with nil lat/lng",
-      "location" => {"address" => "123 Paperflies St", "country" => "Japan", "latitude" => nil, "longitude" => nil},
-      "amenities" => {"general" => [], "room" => []},
+      "location" => { "address" => "123 Paperflies St", "country" => "Japan", "latitude" => nil, "longitude" => nil },
+      "amenities" => { "general" => [], "room" => [] },
       "images" => {},
       "booking_conditions" => []
     }
@@ -240,9 +240,9 @@ class Paperflies::HotelImporterTest < ActiveSupport::TestCase
       "hotel_name" => "Hotel with invalid image",
       "images" => {
         "site" => [
-          {"link" => "http://paperflies.com/new_site.jpg", "caption" => "New Site"}
+          { "link" => "http://paperflies.com/new_site.jpg", "caption" => "New Site" }
         ]
-      },
+      }
     }
 
     BaseImporter.stubs(:validate_image_url).returns(false)

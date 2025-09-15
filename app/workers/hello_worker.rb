@@ -5,4 +5,3 @@ class HelloWorker
     Rails.logger.info "Hello, #{name} from Sidekiq!"
   end
 end
-

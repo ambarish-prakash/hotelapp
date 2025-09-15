@@ -9,13 +9,13 @@ class HotelProcurementJob < ApplicationJob
 
     hotel_data = Procurement::Fetcher.call(endpoint)
     Rails.logger.info("[HotelProcurementJob] Fetched data for #{hotel_data.length} hotels from #{source}")
-  
+
     importer = Procurement::Importers.for(source)
     hotel_data.each do |hotel_json|
       begin
         raw_hotel = importer.import(hotel_json)
         Rails.logger.info("[HotelProcurementJob] Imported Hotel with Hotel Code #{raw_hotel.hotel_code} from Source #{raw_hotel.source}")
-        
+
         HotelMergeJob.perform_later(raw_hotel.hotel_code)
         Rails.logger.info("[HotelProcurementJob] Triggered HotelMergeJob for Hotel Code #{raw_hotel.hotel_code}")
       rescue => e

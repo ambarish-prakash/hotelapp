@@ -27,8 +27,8 @@ class HotelSerializerTest < ActiveSupport::TestCase
   test "serializes amenities grouped by category" do
     assert_not_nil @serialization[:amenities]
     assert_instance_of Hash, @serialization[:amenities]
-    assert_equal ["bar", "wifi"].sort, @serialization[:amenities]["general"].sort
-    assert_equal ["aircon"].sort, @serialization[:amenities]["room"].sort
+    assert_equal [ "bar", "wifi" ].sort, @serialization[:amenities]["general"].sort
+    assert_equal [ "aircon" ].sort, @serialization[:amenities]["room"].sort
   end
 
   test "serializes images grouped by category with link and description" do

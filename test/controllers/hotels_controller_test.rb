@@ -36,7 +36,7 @@ class HotelsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     parsed_response = JSON.parse(response.body)
     assert_equal 2, parsed_response.count
-    expected_hotels = [@hotel, @hotel_two].sort_by(&:hotel_code)
+    expected_hotels = [ @hotel, @hotel_two ].sort_by(&:hotel_code)
     parsed_response.sort_by! { |h| h["id"] }
     expected_hotels.each_with_index do |hotel, i|
       assert_equal HotelSerializer.new(hotel).as_json.deep_stringify_keys, parsed_response[i]

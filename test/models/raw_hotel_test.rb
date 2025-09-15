@@ -65,7 +65,7 @@ class RawHotelTest < ActiveSupport::TestCase
     raw_hotel.images.create!(category: "rooms", url: "http://example.com/image.jpg")
     raw_hotel.create_location!(address: "123 Main St")
 
-    assert_difference ["Amenity.count", "Image.count", "Location.count"], -1 do
+    assert_difference [ "Amenity.count", "Image.count", "Location.count" ], -1 do
       raw_hotel.destroy
     end
   end

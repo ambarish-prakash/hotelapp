@@ -28,7 +28,7 @@ module Merger
             category: image.category,
             description: image.description,
             owner_id: hotel.id,
-            owner_type: 'Hotel',
+            owner_type: "Hotel",
             created_at: now,
             updated_at: now
           }

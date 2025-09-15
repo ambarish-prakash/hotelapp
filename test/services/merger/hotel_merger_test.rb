@@ -19,7 +19,7 @@ class Merger::HotelMergerTest < ActiveSupport::TestCase
   end
 
   test "should call all sub-mergers" do
-    expected_raw_hotels = [@raw_hotel_1, @raw_hotel_2].sort_by(&:id)
+    expected_raw_hotels = [ @raw_hotel_1, @raw_hotel_2 ].sort_by(&:id)
 
     make_mock = -> {
       mock = Minitest::Mock.new
