@@ -28,7 +28,7 @@ class HotelProcurementFlowTest < ApplicationSystemTestCase
       "Address" => "123 System Test St",
       "City" => "Testville",
       "Country" => "USA",
-      "Facilities" => ["Pool", "WiFi"]
+      "Facilities" => [ "Pool", "WiFi" ]
     }
 
     # Ensure we start clean
@@ -36,7 +36,7 @@ class HotelProcurementFlowTest < ApplicationSystemTestCase
     Hotel.where(hotel_code: hotel_code).destroy_all
 
     # Mock the fetcher to return our sample data
-    Procurement::Fetcher.expects(:call).returns([sample_hotel_data])
+    Procurement::Fetcher.expects(:call).returns([ sample_hotel_data ])
 
     # 2. Trigger the procurement job
     assert_difference("RawHotel.count", 1) do

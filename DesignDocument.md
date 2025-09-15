@@ -111,14 +111,15 @@ Here are some additional features added in:
 - Unit tests written for all services, jobs and controller. Including a system test to test the entire procurement and merge jobs together.
 - Test pipeline included as part of CI (on Pull Request and Push to Main).
 - UI (I somehow assumed a UI was required to deliver the data, but only when reading it later I realized only the endpoint was enough).
+- Rake job for setup of data and initial procurement and merging.
 
 
 # Future Implmentation
 These are a mix of features to be implemented now / considered for the future:
 
 - Triggering merge jobs only if the imported hotel changed. Ideally we should only be re-importing hotel data that was updated, but if the source endpoints do not allow us that filtering ability, then we need to do checks before reimporting / merging as the current solution does not scale well.
-- Image deduplication using advanced techniques such as embeddings or phashes
-- If possible check to see if source URLs could be queried with timestamp, to only fetch latest updates
-- Unmatched Amenities (dont have mapping to our internal set) log a warning. Make alerts based on that to handle new amenity tags
-
+- Image deduplication using advanced techniques such as embeddings or phashes.
+- If possible check to see if source URLs could be queried with timestamp, to only fetch latest updates.
+- Unmatched Amenities (dont have mapping to our internal set) log a warning. Make alerts based on that to handle new amenity tags.
+- Dockerize the app to be deployable in a distributed manner.
 

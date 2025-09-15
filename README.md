@@ -53,18 +53,11 @@ Follow these steps to set up the application locally:
     bundle exec sidekiq -C config/sidekiq.yml
     ```
     The sidekiq worker has been configured to run cron jobs daily to load data from three different sources.
-    Instead if you would like to manually trigger the jobs and do not want to use sidekiq, you can run the following in the rails console (bin/rails c)
+    Instead if you would like to manually trigger the jobs to populate the database, you can run the following Rake task:
     ```bash
-    HotelProcurementJob.perform_now("acme")
-    HotelProcurementJob.perform_now("patagonia")
-    HotelProcurementJob.perform_now("paperflies")
+    rake setup:populate_data
     ```
-    Note that these jobs trigger out merge jobs, which will not run unless you have sidekiq running. However if you do not wish to have sidekiq working, but still merge the data, run the following jobs in the rails console. This will only work for the static set.
-    ```bash
-    HotelMergeJob.perform_now("iJhz")
-    HotelMergeJob.perform_now("SjyX")
-    HotelMergeJob.perform_now("f8c9")
-    ```
+    This task will procure data from all sources and merge the data for a predefined set of hotels.
 
 2.  **Start the Rails Server:**
     In another terminal, start the Rails web server:
